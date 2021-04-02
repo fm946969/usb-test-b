@@ -1,27 +1,3 @@
-input.onButtonPressed(Button.A, function () {
-    controldevice(1, 255)
-    basic.pause(1000)
-    controldevice(2, 255)
-    basic.pause(1000)
-    controldevice(3, 255)
-    basic.pause(1000)
-    controldevice(4, 255)
-    basic.pause(5000)
-    controldevice(1, 0)
-    basic.pause(1000)
-    controldevice(2, 0)
-    basic.pause(1000)
-    controldevice(3, 0)
-    basic.pause(1000)
-    controldevice(4, 0)
-    basic.pause(1000)
-    controldevice(1, 255)
-    controldevice(2, 255)
-    controldevice(3, 255)
-    controldevice(4, 255)
-    basic.pause(5000)
-    controldevice(0, 0)
-})
 function controldevice (id: number, power: number) {
     if (power <= 0) {
         led.unplot(id, 0)
@@ -41,13 +17,31 @@ function controldevice (id: number, power: number) {
     }
 }
 radio.onReceivedValue(function (name, value) {
-    let list: string[] = []
-    if (list.indexOf(name) >= 1) {
-        controldevice(list.indexOf(name), value)
-    } else {
-        motor.motorStopAll()
+    if (name.compare("control") == 0) {
+        if (value == 0) {
+            motor.motorStopAll()
+        }
+        if (value % 10 == 1) {
+            controldevice(1, 255)
+        } else {
+            controldevice(1, 0)
+        }
+        if (value / 10 % 10 == 1) {
+            controldevice(2, 255)
+        } else {
+            controldevice(2, 0)
+        }
+        if (value / 100 % 10 == 1) {
+            controldevice(3, 255)
+        } else {
+            controldevice(4, 0)
+        }
+        if (value / 1000 % 10 == 1) {
+            controldevice(4, 255)
+        } else {
+            controldevice(4, 0)
+        }
     }
 })
-let text_list = ["Off", "Led", "Pump1", "Pump2", "Pump3"]
 motor.motorStopAll()
 radio.setGroup(66)
