@@ -61,7 +61,6 @@ function toggle_min_power (id: number) {
 let actual_power = 0
 let list_power_min: number[] = []
 let list_power: number[] = []
-let Pump3MinPower = 0
 motor.motorStopAll()
 radio.setTransmitPower(7)
 radio.setGroup(66)
